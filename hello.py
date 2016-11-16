@@ -31,11 +31,16 @@ def hello():
                 "post":{},
                 "default":
                 {
-                    "index_list":["Name"],
-                    "columns_list":["Rep"],
-                    "values_list":["Price"],
+                    "index_list":["Product"],
+                    "columns_list":["Status"],
+                    "values_list":["Price","Quantity"],
                     "fill_value":0,
                     "margins":"False",
+                    "aggfunc":
+                        {
+                            "Price":["default","count"],
+                            "Quantity":["max","mean"]
+                        },
                     "conditions":[]
                 }
                 }
@@ -47,13 +52,36 @@ def hello():
         values_list = param_json['default']['values_list'] 
         fill_value = param_json['default']['fill_value'] 
         margins = param_json['default']['margins'] 
+        
+        margins = False
+
+        # margins and aggfunc should be judged to testify whether it is wright to solve!!!1
+
         conditions = param_json['default']['conditions'] 
 
-        ret_vir_tab = pd.pivot_table(df,index=index_list,columns=columns_list,values=values_list,fill_value=fill_value,margins=margins)
-        ret_vir_tab.to_csv("hello.csv")
+        FUNC_DICT={
+                "default":np.sum,
+                "mean":np.mean,
+                "count":len,
+                "max":np.max,
+                "min":np.min
+                }
+
+        aggfunc_dict = {}
+        origin_aggfunc_config = param_json['default']['aggfunc']
+        for i in values_list:
+            if i in origin_aggfunc_config and len(origin_aggfunc_config[i]) != 0:
+                aggfunc_dict[i]=[]
+                for j in origin_aggfunc_config[i]:
+                    aggfunc_dict[str(i)].append(FUNC_DICT[j])
+            else:
+                aggfunc_dict[i]=[FUNC_DICT['default']]
+        print aggfunc_dict
+        ret_vir_tab = pd.pivot_table(df,index=index_list,columns=columns_list,values=values_list,fill_value=fill_value,margins=margins,aggfunc=aggfunc_dict)
+        #ret_vir_tab = pd.pivot_table(df,index=index_list,columns=columns_list,values=values_list,fill_value=fill_value,margins=margins,aggfunc=[np.sum,np.mean])
 
         print ret_vir_tab
-
+        print aggfunc_dict
         resultDict['data'] = param_json['version'] 
         return json.dumps(resultDict)
     except:
@@ -62,5 +90,4 @@ def hello():
         return "error"
 
 if __name__ == "__main__":
-    
     app.run()
