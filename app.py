@@ -4,12 +4,19 @@ import numpy as np
 import traceback
 from flask import Flask
 from flask import request
+from flask import render_template
 app = Flask(__name__)
 
+@app.route("/logout", methods=['GET'])
+def logout():
+    return "logout"
+@app.route("/login", methods=['GET'])
+def login():
+    return render_template("aa.html")
 @app.route("/get", methods=['GET'])
 def get():
     return open("static/hello.csv").read()
-@app.route("/", methods=['POST'])
+@app.route("/", methods=['GET','POST'])
 def hello():
     try:
         resultDict = {}
@@ -78,16 +85,18 @@ def hello():
                 aggfunc_dict[i]=[FUNC_DICT['default']]
         print aggfunc_dict
         ret_vir_tab = pd.pivot_table(df,index=index_list,columns=columns_list,values=values_list,fill_value=fill_value,margins=margins,aggfunc=aggfunc_dict)
-        #ret_vir_tab = pd.pivot_table(df,index=index_list,columns=columns_list,values=values_list,fill_value=fill_value,margins=margins,aggfunc=[np.sum,np.mean])
-
         print ret_vir_tab
+        ret_vir_tab.to_html("aa.html")
         print aggfunc_dict
+        table_content  = open("aa.html").read()
+        print table_content
         resultDict['data'] = param_json['version'] 
-        return json.dumps(resultDict)
+        return render_template('index.html', name="hello", table=table_content)
     except:
         s = traceback.format_exc()
         print s
         return "error"
 
 if __name__ == "__main__":
+    app.debug = True
     app.run()
