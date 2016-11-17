@@ -7,12 +7,6 @@ from flask import request
 from flask import render_template
 app = Flask(__name__)
 
-@app.route("/logout", methods=['GET'])
-def logout():
-    return "logout"
-@app.route("/login", methods=['GET'])
-def login():
-    return render_template("aa.html")
 @app.route("/get", methods=['GET','POST'])
 def get():
     myfile = open("aa.html").read()
