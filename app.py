@@ -7,6 +7,10 @@ from flask import request
 from flask import render_template
 app = Flask(__name__)
 
+@app.route("/test", methods=['GET','POST'])
+def test():
+    return render_template('test.html')
+
 @app.route("/get", methods=['GET','POST'])
 def get():
     myfile = open("aa.html").read()
