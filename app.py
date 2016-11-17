@@ -29,29 +29,31 @@ def hello():
             print i
             columns_list_tmp.append(i)
         print columns_list_tmp
-        parameter = request.data
-        #[u'Account', u'Name', u'Rep', u'Manager', u'Product', u'Quantity', u'Price', u'Status']
-        parameter = """
-                {
-                "version":"1.0.0",
-                "pre":{},
-                "post":{},
-                "default":
-                {
-                    "index_list":["Product"],
-                    "columns_list":["Status"],
-                    "values_list":["Price","Quantity"],
-                    "fill_value":0,
-                    "margins":"False",
-                    "aggfunc":
-                        {
-                            "Price":["default","count"],
-                            "Quantity":["max","mean"]
-                        },
-                    "conditions":[]
-                }
-                }
-        """
+        if request.method == 'POST':
+            parameter = request.data
+        else:
+            #[u'Account', u'Name', u'Rep', u'Manager', u'Product', u'Quantity', u'Price', u'Status']
+            parameter = """
+                    {
+                        "version":"1.0.0",
+                        "pre":{},
+                        "post":{},
+                        "default":
+                            {
+                                "index_list":["Product"],
+                                "columns_list":["Status"],
+                                "values_list":["Price","Quantity"],
+                                "fill_value":0,
+                                "margins":"False",
+                                "aggfunc":
+                                    {
+                                        "Price":["default","count"],
+                                        "Quantity":["max","mean"]
+                                    },
+                                "conditions":[]
+                            }
+                    }
+            """
         param_json = json.loads(parameter)
 
         index_list = param_json['default']['index_list']
