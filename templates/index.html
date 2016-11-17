@@ -1,13 +1,55 @@
+<html>
+    <head>
+        <script src="//cdn.bootcss.com/jquery/1.11.1-rc1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div>
+            <h1>WelCome to XY 系统</h1>
+            <p>请在这里选择行列、数值、计算方法</p>
+            <p>筛选条件输入</p>
+            <p>数值输入</p>
+            <p>行选择</p>
+            <p>列选择</p>
+            <p>计算方法设置</p>
+        </div>
 
-{% if name %}
-<h1>Hello {{ name }}!</h1>
-<p>请在这里选择行列、数值、计算方法</p>
-{% endif %}
+        <div>
+            <h1>在这里配置那个概表的各个列的名称</h1>
+            <p>Account Name Rep Manager Product Quantity Price Status</p>
+            <p>在这里需要填写该表格的列名称组</p>
+        </div>
 
-{% if table %}
-<h1>Hello {{ table |safe}}</h1>
-{% endif %}
+        <script>
+        $(document).ready(function(){
+          $("button").click(function(){
+            $.post("/get",
+            {
+              name:"Donald Duck",
+              city:"Duckburg"
+            },
+            function(data,status){
+                alert("recive"+data+"\n"+"status is "+status);
+                $("#result").html(data); 
+            });
+          });
+        });
 
-
-
-
+        </script>
+        <div id="myDiv">
+            <h1>提交查看结果</h1>
+            <button type="button">点击提交查看结果</button>
+        </div>
+        <div>
+            <p id="result">default test</p>
+        </div>
+        {% if table %}
+        <h1>在这里输出结果</h1>
+        <div>
+            {{ table | safe }}
+        </div>
+        <div>
+            <h2>点击下载</h2>
+        </div>
+        {% endif %}
+    </body>
+</html>
