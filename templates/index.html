@@ -11,7 +11,6 @@
         </div>
 
         <script>
-
         $(document).ready(function(){
           $("button").click(function(){
             $.post("/get",
@@ -33,10 +32,11 @@
                         alert("Connection error");
                     },
                     success: function(data) {
-                        var list = data['op']
+                        var list = data['op'];
                         $.each(list, function (i, n) {
-                            console.log(n);
-                        })
+                            alert(n);
+                            $("select#index").append('<option>"hello"</option>');
+                        });
                     }
                 })
           })
@@ -45,6 +45,10 @@
         <div>
             <form id="yourformid" method="post" accept-charset="utf-8">
                 <select multiple="multiple" size="4" name="ss[]" id = "index">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
                 </select>
             <p><input type="submit" value="Continue &rarr;"></p>
             </form>
@@ -53,8 +57,6 @@
             <h1>提交查看结果</h1>
             <button type="button">点击提交查看结果</button>
         </div>
-
-        
         <div>
             <p id="result">default test</p>
         </div>
