@@ -7,8 +7,21 @@ from flask import request
 from flask import render_template
 app = Flask(__name__)
 
+@app.route("/getop", methods=['GET','POST'])
+def getop():
+    ret = {}
+        
+    options = [u'Account', u'Name', u'Rep', u'Manager', u'Product', u'Quantity', u'Price', u'Status'] 
+    ret['data']=1
+    ret['msg']="hell owlr"
+    ret['op']=options
+    return json.dumps(ret)
+
 @app.route("/main", methods=['GET','POST'])
-def main():
+def main_1():
+    print "-----------------"
+    parameter = request.data
+    print parameter
     return render_template('index.html')
 @app.route("/test", methods=['GET','POST'])
 def test():

@@ -3,16 +3,7 @@
         <script src="//cdn.bootcss.com/jquery/1.11.1-rc1/jquery.min.js"></script>
     </head>
     <body>
-        <div>
-            <h1>WelCome to XY 系统</h1>
-            <p>请在这里选择行列、数值、计算方法</p>
-            <p>筛选条件输入</p>
-            <p>数值输入</p>
-            <p>行选择</p>
-            <p>列选择</p>
-            <p>计算方法设置</p>
-        </div>
-
+        <h1>WelCome to XY 系统</h1>
         <div>
             <h1>在这里配置那个概表的各个列的名称</h1>
             <p>Account Name Rep Manager Product Quantity Price Status</p>
@@ -20,6 +11,7 @@
         </div>
 
         <script>
+
         $(document).ready(function(){
           $("button").click(function(){
             $.post("/get",
@@ -28,17 +20,41 @@
               city:"Duckburg"
             },
             function(data,status){
-                alert("recive"+data+"\n"+"status is "+status);
                 $("#result").html(data); 
             });
           });
+          $("form#yourformid").submit(function(){
+                alert("aa");
+                $.ajax({
+                    url:"/getop",
+                    type: "GET",
+                    dataType:"json",
+                    error: function(request) {
+                        alert("Connection error");
+                    },
+                    success: function(data) {
+                        var list = data['op']
+                        $.each(list, function (i, n) {
+                            console.log(n);
+                        })
+                    }
+                })
+          })
         });
-
         </script>
+        <div>
+            <form id="yourformid" method="post" accept-charset="utf-8">
+                <select multiple="multiple" size="4" name="ss[]" id = "index">
+                </select>
+            <p><input type="submit" value="Continue &rarr;"></p>
+            </form>
+        </div>
         <div id="myDiv">
             <h1>提交查看结果</h1>
             <button type="button">点击提交查看结果</button>
         </div>
+
+        
         <div>
             <p id="result">default test</p>
         </div>
