@@ -1,73 +1,15 @@
-<html>
-    <head>
-        <script src="//cdn.bootcss.com/jquery/1.11.1-rc1/jquery.min.js"></script>
-    </head>
-    <body>
-        <h1>WelCome to XY 系统</h1>
-        <div>
-            <h1>在这里配置那个概表的各个列的名称</h1>
-            <p>Account Name Rep Manager Product Quantity Price Status</p>
-            <p>在这里需要填写该表格的列名称组</p>
-        </div>
 
-        <script>
-        $(document).ready(function(){
-          $("button").click(function(){
-            $.post("/get",
-            {
-              name:"Donald Duck",
-              city:"Duckburg"
-            },
-            function(data,status){
-                $("#result").html(data); 
-            });
-          });
-          $("form#yourformid").submit(function(){
-                alert("aa");
-                $.ajax({
-                    url:"/getop",
-                    type: "GET",
-                    dataType:"json",
-                    error: function(request) {
-                        alert("Connection error");
-                    },
-                    success: function(data) {
-                        var list = data['op'];
-                        $.each(list, function (i, n) {
-                            alert(n);
-                            $("select#index").append('<option>"hello"</option>');
-                        });
-                    }
-                })
-          })
-        });
-        </script>
-        <div>
-            <form id="yourformid" method="post" accept-charset="utf-8">
-                <select multiple="multiple" size="4" name="ss[]" id = "index">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </select>
-            <p><input type="submit" value="Continue &rarr;"></p>
-            </form>
-        </div>
-        <div id="myDiv">
-            <h1>提交查看结果</h1>
-            <button type="button">点击提交查看结果</button>
-        </div>
-        <div>
-            <p id="result">default test</p>
-        </div>
-        {% if table %}
-        <h1>在这里输出结果</h1>
-        <div>
-            {{ table | safe }}
-        </div>
-        <div>
-            <h2>点击下载</h2>
-        </div>
-        {% endif %}
-    </body>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React!</title>
+    <script src="/static/js/react.js"></script>
+    <script src="/static/js/react-dom.js"></script>
+    <script type="text/babel" src="/static/js/youzan.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+  </head>
+  <body>
+    <div id="main"></div>
+  </body>
 </html>
